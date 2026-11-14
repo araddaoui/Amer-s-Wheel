@@ -58,7 +58,6 @@ interface BasketballBettingGameProps {
   isMuted: boolean;
   onToggleMute: () => void;
   onBackToLobby: () => void;
-  onDebitWager: (amount: number) => void;
   onSettleOutcome: (
     payout: number,
     netResult: number,
@@ -111,7 +110,6 @@ export const BasketballBettingGame: React.FC<BasketballBettingGameProps> = ({
   isMuted,
   onToggleMute,
   onBackToLobby,
-  onDebitWager,
   onSettleOutcome,
 }) => {
   const [matchupIdx, setMatchupIdx] = useState<number>(0);
@@ -193,7 +191,6 @@ export const BasketballBettingGame: React.FC<BasketballBettingGameProps> = ({
     if (isPlaying || betError) return;
 
     const normalizedWager = roundCurrency(wager);
-    onDebitWager(normalizedWager);
     setLastResult(null);
     setAwayScore(0);
     setHomeScore(0);

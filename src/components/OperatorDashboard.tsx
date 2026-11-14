@@ -127,7 +127,7 @@ export const OperatorDashboard: React.FC<OperatorDashboardProps> = ({
     e.preventDefault();
     const ok = onAuthenticate(pinInput.trim());
     if (!ok) {
-      setAuthError('Invalid operator passcode. Default demo passcode is 1234.');
+      setAuthError('Invalid operator passcode.');
     } else {
       setAuthError(null);
       setPinInput('');
@@ -157,7 +157,7 @@ export const OperatorDashboard: React.FC<OperatorDashboardProps> = ({
               type="password"
               value={pinInput}
               onChange={(e) => setPinInput(e.target.value)}
-              placeholder="Enter passcode (default: 1234)"
+              placeholder="Enter operator passcode"
               autoFocus
               className="w-full px-3.5 py-2.5 bg-[#0B1120] border border-slate-700 focus:border-amber-500 focus:outline-none rounded-lg font-mono text-sm text-slate-100"
             />
@@ -165,21 +165,12 @@ export const OperatorDashboard: React.FC<OperatorDashboardProps> = ({
 
           {authError && <p className="text-xs text-rose-400">{authError}</p>}
 
-          <div className="flex items-center gap-2.5">
-            <button
-              type="submit"
-              className="flex-1 py-2.5 px-4 bg-amber-500 hover:bg-amber-400 text-slate-950 font-semibold text-xs rounded-lg transition-colors cursor-pointer"
-            >
-              Unlock Console
-            </button>
-            <button
-              type="button"
-              onClick={() => onAuthenticate(config.operatorPin)}
-              className="py-2.5 px-3.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium rounded-lg transition-colors whitespace-nowrap cursor-pointer"
-            >
-              Demo Unlock ({config.operatorPin})
-            </button>
-          </div>
+          <button
+            type="submit"
+            className="w-full py-2.5 px-4 bg-amber-500 hover:bg-amber-400 text-slate-950 font-semibold text-xs rounded-lg transition-colors cursor-pointer"
+          >
+            Unlock Console
+          </button>
         </form>
       </div>
     );

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import {
   AuditLogEntry,
@@ -59,6 +59,7 @@ export default function App() {
   const [celebrationOutcome, setCelebrationOutcome] = useState<CelebrationOutcome | null>(null);
   const [outcomeTriggerKey, setOutcomeTriggerKey] = useState<number>(0);
   const [isMuted, setIsMuted] = useState<boolean>(false);
+  const spinInFlightRef = useRef(false);
 
   // Sync persistence
   useEffect(() => {
@@ -103,19 +104,18 @@ export default function App() {
 
   // --- Amer's Wheel Handlers ---
   const handleSpin = async () => {
-    if (isSpinning) return;
+    if (isSpinning || spinInFlightRef.current) return;
+    spinInFlightRef.current = true;
     try {
       const result = await executeSpin(betAmount, player, config, wheelRotation);
-      setPlayer((prev) => ({
-        ...prev,
-        balance: roundCurrency(prev.balance - result.spinRecord.betAmount),
-      }));
       setWinningSegmentId(null);
       setPendingSpin(result);
       setWheelRotation(result.targetWheelRotation);
       setIsSpinning(true);
     } catch {
       // Validation message is shown inline in BettingPanel
+    } finally {
+      spinInFlightRef.current = false;
     }
   };
 
@@ -140,13 +140,8 @@ export default function App() {
   }, [pendingSpin, appendAudit]);
 
   // --- Shared Sports & Arcade Settlement Handlers (Horse Racing & Basketball) ---
-  const handleDebitWager = useCallback((amount: number) => {
-    setPlayer((prev) => ({
-      ...prev,
-      balance: roundCurrency(prev.balance - amount),
-    }));
-  }, []);
-
+  // Wagers are debited and payouts credited atomically at settlement time, so
+  // abandoning or reloading mid-game leaves the wallet untouched.
   const handleSettleSideGameOutcome = useCallback(
     (
       payout: number,
@@ -157,7 +152,7 @@ export default function App() {
       celebration: CelebrationOutcome
     ) => {
       setPlayer((prev) => {
-        const nextBalance = roundCurrency(prev.balance + payout);
+        const nextBalance = roundCurrency(prev.balance + netResult);
         appendAudit({
           id: `aud-${Date.now()}`,
           timestamp: Date.now(),
@@ -491,7 +486,6 @@ export default function App() {
                 isMuted={isMuted}
                 onToggleMute={handleToggleMute}
                 onBackToLobby={() => navigateTo('lobby')}
-                onDebitWager={handleDebitWager}
                 onSettleOutcome={handleSettleSideGameOutcome}
               />
             )}
@@ -503,7 +497,6 @@ export default function App() {
                 isMuted={isMuted}
                 onToggleMute={handleToggleMute}
                 onBackToLobby={() => navigateTo('lobby')}
-                onDebitWager={handleDebitWager}
                 onSettleOutcome={handleSettleSideGameOutcome}
               />
             )}

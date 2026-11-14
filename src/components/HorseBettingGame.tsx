@@ -36,7 +36,6 @@ interface HorseBettingGameProps {
   isMuted: boolean;
   onToggleMute: () => void;
   onBackToLobby: () => void;
-  onDebitWager: (amount: number) => void;
   onSettleOutcome: (
     payout: number,
     netResult: number,
@@ -109,7 +108,6 @@ export const HorseBettingGame: React.FC<HorseBettingGameProps> = ({
   isMuted,
   onToggleMute,
   onBackToLobby,
-  onDebitWager,
   onSettleOutcome,
 }) => {
   const [raceSeed, setRaceSeed] = useState<number>(1);
@@ -153,7 +151,6 @@ export const HorseBettingGame: React.FC<HorseBettingGameProps> = ({
     if (isRacing || betError) return;
 
     const normalizedWager = roundCurrency(wager);
-    onDebitWager(normalizedWager);
     setLastResult(null);
     setIsRacing(true);
     setRaceProgress(0);
