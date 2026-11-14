@@ -1,0 +1,153 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Outfit", system-ui, sans-serif;
+  --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-sans);
+    background-color: #0b1120;
+    color: #f8fafc;
+  }
+
+  h1, h2, h3, .font-display {
+    font-family: var(--font-display);
+  }
+
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Custom subtle scrollbars for data tables and logs */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0b1120;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
+
+@keyframes screenWinFlash {
+  0% {
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  45% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes screenLossFlash {
+  0% {
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.75;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes cashFloatUp {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 20vh, 0) scale(0.5) rotate(0deg);
+  }
+  12% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 0.95;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--drift-x, 40px), -88vh, 0) scale(1.15) rotate(var(--spin-deg, 240deg));
+  }
+}
+
+@keyframes cashDrainDown {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -15vh, 0) scale(1.05) rotate(0deg);
+  }
+  14% {
+    opacity: 0.92;
+  }
+  82% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--drift-x, -20px), 78vh, 0) scale(0.65) rotate(var(--spin-deg, -90deg));
+  }
+}
+
+@keyframes wheelLossShake {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  18% {
+    transform: translate3d(-7px, 0, 0);
+  }
+  36% {
+    transform: translate3d(7px, 0, 0);
+  }
+  54% {
+    transform: translate3d(-5px, 0, 0);
+  }
+  72% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+
+.animate-screen-win {
+  animation: screenWinFlash 2.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-screen-loss {
+  animation: screenLossFlash 2.0s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-cash-up {
+  animation: cashFloatUp var(--dur, 2.4s) cubic-bezier(0.2, 0.8, 0.3, 1) var(--delay, 0s) forwards;
+}
+
+.animate-cash-down {
+  animation: cashDrainDown var(--dur, 2.0s) cubic-bezier(0.4, 0, 0.8, 0.6) var(--delay, 0s) forwards;
+}
+
+.animate-loss-shake {
+  animation: wheelLossShake 0.48s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-cash-up,
+  .animate-cash-down,
+  .animate-loss-shake {
+    animation-duration: 0.01ms !important;
+  }
+}
+

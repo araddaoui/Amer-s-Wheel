@@ -1,0 +1,6 @@
+{
+  "name": "FortuneWheel Pro",
+  "description": "Configurable house-edge Wheel of Fortune gaming platform with mathematical probability engine, provably fair RNG, Monte Carlo simulation lab, and operator audit console.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
