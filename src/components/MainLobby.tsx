@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { ArrowRight, PlusCircle, RotateCcw, ShieldCheck } from 'lucide-react';
 import { AuditLogEntry, BetLimits, ProbabilityCalculation } from '../types/game';
+import amersWheelImg from '../assets/images/game_card_amers_wheel_1794644917309.jpg';
+import horseRacingImg from '../assets/images/game_card_horse_racing_1794644918682.jpg';
+import basketballImg from '../assets/images/game_card_basketball_1794644917986.jpg';
 
 export type GameRoute = 'wheel' | 'horses' | 'basketball' | 'operator';
 
@@ -43,7 +46,7 @@ export const MainLobby: React.FC<MainLobbyProps> = ({
       meta: `Configurable House Edge · ${wheelCalc.rtpPercent.toFixed(2)}% RTP · Up to ${Math.max(...wheelCalc.segments.map((s) => s.multiplier))}x`,
       description:
         'Proportional spinning wheel with Mystery Spin reveal, SHA-256 verifiable RNG, and live probability configuration in the Operator Console.',
-      imageSrc: '/src/assets/images/game_card_amers_wheel_1794644917309.jpg',
+      imageSrc: amersWheelImg,
       imageAlt: "Amer's Wheel luxury studio prize wheel",
       ctaLabel: "Play Amer's Wheel",
       accentGradient: 'from-amber-950/80 via-slate-900 to-slate-950',
@@ -54,7 +57,7 @@ export const MainLobby: React.FC<MainLobbyProps> = ({
       meta: '5-Lane Turf Sprint · Win & Place Markets · Up to 22x Odds',
       description:
         'Pick your thoroughbred, choose Win or Top-2 Place markets, and watch the animated 5-furlong turf sprint down to the finish wire.',
-      imageSrc: '/src/assets/images/game_card_horse_racing_1794644918682.jpg',
+      imageSrc: horseRacingImg,
       imageAlt: 'Thoroughbred racehorses sprinting on an emerald turf track under floodlights',
       ctaLabel: 'Enter Turf Derby',
       accentGradient: 'from-emerald-950/80 via-slate-900 to-slate-950',
@@ -65,7 +68,7 @@ export const MainLobby: React.FC<MainLobbyProps> = ({
       meta: 'Moneyline, Spread & Totals · Live 4-Quarter Sim',
       description:
         'Back the Moneyline, Point Spread, or Over/Under total across featured matchups and follow live play-by-play shot arcs through the buzzer.',
-      imageSrc: '/src/assets/images/game_card_basketball_1794644917986.jpg',
+      imageSrc: basketballImg,
       imageAlt: 'Hardwood indoor basketball arena court under dramatic spotlights',
       ctaLabel: 'Tip Off Hoops',
       accentGradient: 'from-blue-950/80 via-slate-900 to-slate-950',
